@@ -4,22 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DAGAGA_write</title>
-    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
-          href="fontawesome/css/all.min.css" />
-    <!-- https://fontawesome.com/ -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
-      rel="stylesheet"
-    />
-    <!-- https://fonts.google.com/ -->
-    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
-    <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+      <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
+            href="fontawesome/css/all.min.css" />
+      <!-- https://fontawesome.com/ -->
+      <link
+              href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
+              rel="stylesheet"
+      />
+      <!-- https://fonts.google.com/ -->
+      <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
+      <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+      <link th:href="@{/css/style.css}" href="css/style.css" rel="stylesheet"/>
 
-    <style>
-      .member-login {
-        text-align: center;
-      }
-    </style>
+      <script
+              src="https://code.jquery.com/jquery-3.6.0.js"
+              integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+              crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-migrate-3.4.0.js"
+              integrity="sha256-0Nkb10Hnhm4EJZ0QDpvInc3bRp77wQIbIQmWYH3Y7Vw="
+              crossorigin="anonymous"></script>
+
+      <script>
+          let sequence = 1;
+
+          $(function() {
+              $('#add-form').on('click', function () {
+
+                  let newItem = $('<tr></tr>');
+                  newItem.append($('<th></th>', {text: `물품${sequence+1}`}))
+                  newItem.append($('<td></td>').append($('<input/>', {type: 'text', name: `items[${sequence}].name`})))
+                  newItem.append($('<td></td>').append($('<input/>', {type: 'text', name: `items[${sequence}].price`})))
+                  newItem.append($('<td></td>').append($('<input/>', {type: 'text', name: `items[${sequence}].author`})))
+
+                  $('#add-point').append(newItem);
+                  sequence++;
+              })
+
+              $('#delete-form').on('click', function () {
+                  if (sequence > 1) {
+                      $('#add-point tr:last-child').remove()
+                      sequence--;
+                  }
+              });
+          })
+      </script>
+
   </head>
   <body>
     <header class="tm-header" id="tm-header">
@@ -33,12 +62,14 @@
         </button>
         <div class="tm-site-header">
           <div class="mb-3 mx-auto tm-site-logo">
-            <img src="img/donga.jpg" alt="Image" class="img-fluid" />
+            <img th:src="@{/img/donga.jpg}" src="img/donga.jpg" alt="Image" class="img-fluid" />
           </div>
           <h1 class="text-center">DAGAGA</h1>
-          <div class="member-login"
-               th:if="${member != null}"
-               th:text="|${member.nickName}님 환영합니다.|"></div>
+            <div class="member-login">
+                <p th:if="${member != null}" th:text="|${member.nickName}님 환영합니다.|"></p>
+                <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+                <a th:if="${member != null}" th:href="@{/logout}">logout</a>
+            </div>
         </div>
         <nav class="tm-nav" id="tm-nav">
           <ul>
@@ -93,56 +124,51 @@
           </div>
         </div>
         <hr>
-        <table class="writetable">
-            <tr>
-                <th style="width: 117px;">제목  </th>
-                <td>
-                    <input type="text" name="title">
-                    <select>
-                        <option value="3">거래가능</option>
-                        <option value="4">거래완료</option>
-                    </select>
-                    </td>       
-            </tr>
-        </table>
-        <hr>
-        <table class="writetable">
-            <tr>
-                <th style="width: 117px;">내용</th>
-                <td><textarea cols="50" rows="10" name="content" placeholder="내용을 입력해주세요"></textarea></td>
-            </tr>
-            <tr>
-                <th></th>
-                <td><input type="button" value="사진첨부"></td>
-            </tr>
-        </table>
-            <hr>
-        <table class="writetable">
-            <tr>
-                <th>물품이름</th>
-                <td><input type="text" name="itemname" placeholder="예시) 책, 옷"></td>
-            </tr>
-        </table>    
-        <hr>
-        <table class="writetable">
-            <tr>
-                <th style="width: 117px;">가격</th>
-                <td><input type="text" name="itemprice" placeholder="숫자만 입력해주세요."></td>
-            </tr>
-        </table>
-        <hr>
-        <table class="writetable">
-            <tr>
-                <th>저자이름</th>
-                <td><input size="33" type="text" placeholder="물품이 책인 경우에만 작성해주세요." value></td>
-            </tr>            
-        </table>
-        <div class="outerpostwriting">
-            <div class="innerpostwriting">
-              <button class="postwriting">
-                <a class="writingicon2"href="seewriting.html">글작성하기</a></button>
-            </div>
+        <form method="post" th:action>
+          <table class="writetable">
+              <tr>
+                  <th style="width: 117px;">제목  </th>
+                  <td>
+                      <input type="text" name="title">
+                      <select>
+                          <option value="3">거래가능</option>
+                          <option value="4">거래완료</option>
+                      </select>
+                      </td>       
+              </tr>
+          </table>
+          <hr>
+          <table class="writetable">
+              <tr>
+                  <th style="width: 117px;">내용</th>
+                  <td><textarea cols="50" rows="10" name="content" placeholder="내용을 입력해주세요"></textarea></td>
+              </tr>
+              <tr>
+                  <th></th>
+                  <td><input type="button" value="사진첨부"></td>
+              </tr>
+          </table>
+              <hr>
+          <table class="writetable" id="add-point">
+              <tr>
+                      <th>물품1</th>
+                      <td><input type="text" name="items[0].name" placeholder="물품이름(필수)"></td>
+                      <td><input type="text" name="items[0].price"  placeholder="가격(필수)"></td>
+                      <td><input name="items[0].author" type="text"  placeholder="저자" value></td>
+                  <td>
+                      <button type="button" id="add-form" style="background: white; border: 0"><i class="fa fa-plus"></i></button>
+                  </td>
+                  <td>
+                      <button type="button" id="delete-form" style="background: white; border: 0"><i class="fa fa-minus"></i></button>
+                  </td>
+              </tr>
+          </table>
+          <div class="outerpostwriting">
+              <div class="innerpostwriting">
+                <button class="postwriting writingicon2" type="submit">작성</button>
+              </div>
           </div>
+        </form>
 
 
         <hr />

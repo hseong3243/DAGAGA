@@ -1,5 +1,12 @@
 package donga.merchant.domain.entity.item;
 
-public enum ItemStatus {
-    ON_SALE,RESERVATION,OFF_SALE;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class ItemCode {
+
+    private String code;
+    private String displayName;
 }

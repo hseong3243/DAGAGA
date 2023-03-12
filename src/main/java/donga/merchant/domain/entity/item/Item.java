@@ -1,23 +1,26 @@
-package donga.merchant.entity.item;
+package donga.merchant.domain.entity.item;
 
-import donga.merchant.entity.Member;
-import donga.merchant.entity.Post;
+import donga.merchant.domain.entity.Member;
+import donga.merchant.domain.entity.Post;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Getter @Setter
+public abstract class Item {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "item_id")
     private Long id;
 
     private String name;
     private int price;
-    private ItemStatus status;
+    private String itemCode; //물품 상태
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
@@ -31,4 +34,13 @@ public class Item {
     public void setPost(Post post) {
         this.post = post;
     }
+
+//    public static Item createItem(String name, int price, String itemCode) {
+//        Item item = new Item();
+//        item.setName(name);
+//        item.setPrice(price);
+//        item.setItemCode(itemCode);
+//
+//        return item;
+//    }
 }

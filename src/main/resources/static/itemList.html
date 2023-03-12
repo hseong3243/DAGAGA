@@ -1,20 +1,23 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DAGAGA_itemlist</title>
-    <link rel="stylesheet" href="fontawesome/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
+          href="fontawesome/css/all.min.css" />
     <!-- https://fontawesome.com/ -->
     <link
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
       rel="stylesheet"
     />
     <!-- https://fonts.google.com/ -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/templatemo-xtra-blog.css" rel="stylesheet" />
-    
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" href="css/style.css" rel="stylesheet"/>
+
+
   </head>
   <body>
     <header class="tm-header" id="tm-header">
@@ -31,28 +34,34 @@
             <img src="img/donga.jpg" alt="Image" class="img-fluid" />
           </div>
           <h1 class="text-center">DAGAGA</h1>
+          <div class="member-login">
+            <p th:if="${member != null}" th:text="|${member.nickName}님 환영합니다.|"></p>
+            <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+            <a th:if="${member != null}" th:href="@{/logout}">logout</a>
+          </div>
         </div>
         <nav class="tm-nav" id="tm-nav">
           <ul>
             <li class="tm-nav-item">
-              <a href="main.html" class="tm-nav-link">
+              <a th:href="@{/}" href="main.html" class="tm-nav-link">
                 <i class="fas fa-home"></i>
                 HOME
               </a>
             </li>
             <li class="tm-nav-item">
-              <a href="postLitst.html" class="tm-nav-link">
+              <a th:href="@{/posts}" href="postList.html" class="tm-nav-link">
                 <i class="fas fa-pen"></i>
                 Post List
               </a>
             </li>
             <li class="tm-nav-item active">
-              <a href="itemList.html" class="tm-nav-link">
+              <a th:href="@{/items}" href="itemList.html" class="tm-nav-link">
                 <i class="fas fa-solid fa-tags"></i>
                 Item List
               </a>
             </li>
-            <li class="tm-nav-item"><a href="myPage.html" class="tm-nav-link">
+            <li class="tm-nav-item">
+              <a th:href="@{/my-page}" href="myPage.html" class="tm-nav-link">
               <i class="fas fa-id-card"></i>
               My Page
           </a></li>
@@ -62,25 +71,39 @@
     </header>
     <div class="container-fluid">
       <main class="tm-main">
-        <div class ="container-login"><a href="logIn.html">login</a></div>
+        <div class ="container-login">
+          <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+          <a th:if="${member != null}" th:href="@{/logout}">logout</a>
         <!-- Search form -->
+          <form method="get">
         <div class="row tm-row">
           <div class="col-12">
-            <form method="GET" class="form-inline tm-mb-80 tm-search-form">
+            <div class="form-inline tm-mb-80 tm-search-form" th:action>
               <input
                 class="form-control tm-search-input"
                 name="query"
                 type="text"
                 placeholder="Search..."
                 aria-label="Search"
+                th:value="${query}"
               />
               <button class="tm-search-button" type="submit">
                 <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
               </button>
-            </form>
+            </div>
           </div>
         </div>
         <hr />
+        <div class="priceselectbox">
+          <span>가격</span>
+          <select name="direction">
+            <option value="1" th:each="sortDirection : ${sortCodes}"
+                    th:value="${sortDirection.direction}"
+                    th:text="${sortDirection.code}">오름차순</option>
+          </select>
+          <button type="submit">확인</button>
+      </div>
+          </form>
         <table class="styled-table">
           <thead>
               <tr>
@@ -90,10 +113,10 @@
               </tr>
           </thead>
           <tbody>
-              <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+              <tr th:each="item : ${items}">
+                  <td th:text="${item.id}"></td>
+                  <td th:text="${item.name}"></td>
+                  <td th:text="${item.price}"></td>
               </tr>
               
           </tbody>
@@ -112,8 +135,9 @@
             <span class="d-inline-block mr-3">Page</span>
             <nav class="tm-paging-nav d-inline-block">
               <ul>
-                <li class="tm-paging-item active">
-                  <a href="#" class="mb-2 tm-btn tm-paging-link">1</a>
+                <li class="tm-paging-item active" th:each="i : ${#numbers.sequence(0, page - 1)}">
+                  <a th:text="${i+1}" th:href="@{/items(page=${i})}"
+                          href="#" class="mb-2 tm-btn tm-paging-link">1</a>
                 </li>
                 
                 </li>

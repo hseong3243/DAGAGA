@@ -1,4 +1,4 @@
-package donga.merchant.web.login;
+package donga.merchant.web.controller.login;
 
 import lombok.Data;
 

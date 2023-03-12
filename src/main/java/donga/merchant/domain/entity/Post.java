@@ -1,24 +1,27 @@
-package donga.merchant.entity;
+package donga.merchant.domain.entity;
 
-import donga.merchant.entity.item.Item;
+import donga.merchant.domain.entity.item.Item;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
 public class Post {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "post_id")
     private Long id;
 
     private String title;
     private String content;
-    private Date createdDate;
+    private LocalDate createdDate;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<UploadFile> imageFiles;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -30,7 +33,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    private Category category;
+//    private Category category;
 
     //==연관관계 메서드==//
     public void setTitle(String title) {
@@ -41,19 +44,40 @@ public class Post {
         this.content = content;
     }
 
+    public void setCreatedDate(LocalDate date) {
+        this.createdDate = LocalDate.now();
+    }
+
+    public void setImageFiles(List<UploadFile> imageFiles) {
+        this.imageFiles = imageFiles;
+        for (UploadFile imageFile : imageFiles) {
+            imageFile.setPost(this);
+        }
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getPosts().add(this);
+    }
+
     public void addItem(Item item) {
         this.items.add(item);
         item.setPost(this);
     }
 
+    public void updatePost(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+
     //--생성 메서드--//
-    public static Post createPost(String title, String content, Item... items) {
+    public static Post createPost(String title, String content, LocalDate date, Member member) {
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
-        for (Item item : items) {
-            post.addItem(item);
-        }
+        post.setCreatedDate(date);
+        post.setMember(member);
 
         return post;
     }

@@ -1,4 +1,4 @@
-package donga.merchant.web.login;
+package donga.merchant.web.controller.login;
 
 import donga.merchant.domain.entity.Member;
 import donga.merchant.web.service.MemberService;

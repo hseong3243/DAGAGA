@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DAGAGA_postlist</title>
-    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
-          href="fontawesome/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/templates/fontawesome/css/all.min.css}"
+          href="../fontawesome/css/all.min.css" />
     <!-- https://fontawesome.com/ -->
     <link
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
       rel="stylesheet"
     />
     <!-- https://fonts.google.com/ -->
-    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
-    <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
-    <link th:href="@{/css/style.css}" href="css/style.css" rel="stylesheet"/>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/templatemo-xtra-blog.css}" href="../css/templatemo-xtra-blog.css" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" href="../css/style.css" rel="stylesheet"/>
     <!--
     
 TemplateMo 553 Xtra Blog
@@ -40,31 +40,31 @@ https://templatemo.com/tm-553-xtra-blog
         </button>
         <div class="tm-site-header">
           <div class="mb-3 mx-auto tm-site-logo">
-            <img src="img/donga.jpg" alt="Image" class="img-fluid" />
+            <img src="../img/donga.jpg" alt="Image" class="img-fluid" />
           </div>
           <h1 class="text-center">DAGAGA</h1>
           <div class="member-login">
             <p th:if="${member != null}" th:text="|${member.nickName}님 환영합니다.|"></p>
-            <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+            <a th:if="${member == null}" th:href="@{/login}" href="../login.html">login</a>
             <a th:if="${member != null}" th:href="@{/logout}">logout</a>
           </div>
         </div>
         <nav class="tm-nav" id="tm-nav">
           <ul>
             <li class="tm-nav-item">
-              <a th:href="@{/}" href="main.html" class="tm-nav-link">
+              <a th:href="@{/}" href="../main.html" class="tm-nav-link">
                 <i class="fas fa-home"></i>
                 HOME
               </a>
             </li>
             <li class="tm-nav-item active">
-              <a th:href="@{/posts}" href="postList.html" class="tm-nav-link">
+              <a th:href="@{/posts}" href="../postList.html" class="tm-nav-link">
                 <i class="fas fa-pen"></i>
                 Post List
               </a>
             </li>
             <li class="tm-nav-item">
-              <a th:href="@{/items}" href="itemList.html" class="tm-nav-link">
+              <a th:href="@{/items}" href="../itemList.html" class="tm-nav-link">
                 <i class="fas fa-solid fa-tags"></i>
                 Item List
               </a>
@@ -81,7 +81,7 @@ https://templatemo.com/tm-553-xtra-blog
     <div class="container-fluid">
       <main class="tm-main">
         <div class ="container-login">
-          <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+          <a th:if="${member == null}" th:href="@{/login}" href="../login.html">login</a>
           <a th:if="${member != null}" th:href="@{/logout}">logout</a>
         </div>
         <!-- Search form -->
@@ -107,50 +107,38 @@ https://templatemo.com/tm-553-xtra-blog
           <thead>
               <tr>
                   <th>번호</th>
-                  <th>제목</th>
-                  <th>날짜</th>
-                  <th>작성자</th>
+                  <th>게시글</th>
+                  <th>댓글내용</th>
               </tr>
           </thead>
           <tbody>
-              <tr th:each="post : ${posts}">
-                  <td><a th:href="@{/posts/{id} (id=${post.id})}" th:text="${post.id}">1</a></td>
-                  <td><a href="#" th:href="@{/posts/{id} (id=${post.id})}" th:text="${post.title}">test</a></td>
-                  <td th:text="${post.createdDate}">2022-05-23</td>
-                  <td th:text="${post.memberNickname}"></td>
+              <tr th:each="comment : ${comments}">
+                  <td><a th:href="@{/posts/{id} (id=${comment.postId})}" th:text="${comment.id}">1</a></td>
+                  <td><a href="#" th:href="@{/posts/{id} (id=${comment.postId})}" th:text="${comment.postTitle}">test</a></td>
+                  <td th:text="${comment.content}">2022-05-23</td>
               </tr>
               
           </tbody>
       </table>
-        <button style='font-size: 1rem; width:80px;float: right;' class="postwriting writingicon2"
-                th:onclick="|location.href='@{/posts/write}'|">
-          글쓰기
-        </button>
+
 
         <div class="row tm-row tm-mt-100 tm-mb-75">
           <div class="tm-prev-next-wrapper">
-            <a
-              href="#"
-              class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20"
-            >
-              Prev
-            </a>
-            <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
           </div>
           <div class="tm-paging-wrapper">
             <span class="d-inline-block mr-3">Page</span>
             <nav class="tm-paging-nav d-inline-block">
-              <ul th:with="start=${T(java.lang.Math).floor(posts.number/4)*4 + 1}, last=(${start + 3 < posts.totalPages ? start + 3 : posts.totalPages})">
+              <ul th:with="start=${T(java.lang.Math).floor(comments.number/4)*4 + 1}, last=(${start + 3 < comments.totalPages ? start + 3 : comments.totalPages})">
                 <li class="tm-paging-item active" th:if="${start > 1}">
-                  <a th:href="${posts.first} ? '#' : @{/posts(query=${query}, status=${status}, sort=${sort}, page=${#numbers.formatInteger(start-5, 0, 'COMMA')})}"
+                  <a th:href="${comments.first} ? '#' : @{/my-page/my-comments(query=${query}, status=${status}, sort=${sort}, page=${#numbers.formatInteger(start-5, 0, 'COMMA')})}"
                      href="#" class="mb-2 tm-btn tm-paging-link">&lt;</a>
                 </li>
                 <li class="tm-paging-item active" th:each="i : ${#numbers.sequence(start, last)}">
-                  <a th:text="${i}" th:href="@{/posts(query=${query}, status=${status}, sort=${sort}, page=${i}-1)}"
+                  <a th:text="${i}" th:href="@{/my-page/my-comments(query=${query}, status=${status}, sort=${sort}, page=${i}-1)}"
                      href="#" class="mb-2 tm-btn tm-paging-link">1</a>
                 </li>
-                <li class="tm-paging-item active" th:if="${last < posts.totalPages}">
-                  <a th:href="${posts.last} ? '#' : @{/posts(query=${query}, status=${status}, sort=${sort}, page=${#numbers.formatInteger(start+3, 0, 'COMMA')})}"
+                <li class="tm-paging-item active" th:if="${last < comments.totalPages}">
+                  <a th:href="${comments.last} ? '#' : @{/my-page/my-comments(query=${query}, status=${status}, sort=${sort}, page=${#numbers.formatInteger(start+3, 0, 'COMMA')})}"
                      href="#" class="mb-2 tm-btn tm-paging-link">&gt;</a>
                 </li>
                 </li>
@@ -171,7 +159,7 @@ https://templatemo.com/tm-553-xtra-blog
         </footer>
       </main>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/templatemo-script.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/templatemo-script.js"></script>
   </body>
 </html>

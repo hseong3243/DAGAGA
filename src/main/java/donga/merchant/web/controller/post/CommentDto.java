@@ -1,4 +1,4 @@
-package donga.merchant.web.service;
+package donga.merchant.web.controller.post;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

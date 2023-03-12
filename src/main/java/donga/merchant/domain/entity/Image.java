@@ -1,4 +1,4 @@
-package donga.merchant.entity;
+package donga.merchant.domain.entity;
 
 public class Image {
 }

@@ -1,7 +1,5 @@
-package donga.merchant.domain;
+package donga.merchant.domain.entity;
 
-import donga.merchant.domain.entity.Post;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.4.0.js"
+            integrity="sha256-0Nkb10Hnhm4EJZ0QDpvInc3bRp77wQIbIQmWYH3Y7Vw="
+            crossorigin="anonymous"></script>
+
+    <script>
+        let sequence = 1;
+
+        $(function() {
+            $('#new-form').on('click', function () {
+                // let form = $('.test-form').clone()
+                //
+                // $(form).insertAfter('#new-form')
+                let form = $('.test-form').get()
+
+                $('#check')
+                    .before($('<input/>', {type: 'text', name: `item[${sequence}].name`}))
+                    .before($('<input/>', {type: 'text', name: `item[${sequence}].price`}))
+                    .before($('<input/>', {type: 'text', name: `item[${sequence}].author`}))
+                    .before($('<br>'))
+                sequence++;
+            })
+        })
+    </script>
+</head>
+<body>
+<form method="post" class="test-form">
+    <input type="text" name="item[0].name"/>
+    <input type="text" name="item[0].price"/>
+    <input type="text" name="item[0].author"/>
+    <br>
+    <br id="check">
+    <button type="submit">완료</button>
+</form>
+<button id="new-form">추가</button>
+
+</body>
+</html>

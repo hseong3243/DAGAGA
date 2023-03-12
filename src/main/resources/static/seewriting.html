@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DAGAGA_seewriting</title>
-    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
-          href="fontawesome/css/all.min.css" />
-    <!-- https://fontawesome.com/ -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
-      rel="stylesheet"
-    />
-    <!-- https://fonts.google.com/ -->
-    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
-    <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+      <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
+            href="fontawesome/css/all.min.css" />
+      <!-- https://fontawesome.com/ -->
+      <link
+              href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
+              rel="stylesheet"
+      />
+      <!-- https://fonts.google.com/ -->
+      <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
+      <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+      <link th:href="@{/css/style.css}" href="css/style.css" rel="stylesheet"/>
 
     <style>
       .member-login {
@@ -36,9 +37,11 @@
             <img src="img/donga.jpg" alt="Image" class="img-fluid" />
           </div>
           <h1 class="text-center">DAGAGA</h1>
-          <div class="member-login"
-               th:if="${member != null}"
-               th:text="|${member.nickName}님 환영합니다.|"></div>
+            <div class="member-login">
+                <p th:if="${member != null}" th:text="|${member.nickName}님 환영합니다.|"></p>
+                <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+                <a th:if="${member != null}" th:href="@{/logout}">logout</a>
+            </div>
         </div>
         <nav class="tm-nav" id="tm-nav">
           <ul>
@@ -92,46 +95,61 @@
           </div>
         </div>
         <hr>
-        <table class="writetable">
-            <tr>
-                <th style="width: 117px;">제목  </th>
-                <td>
-                </td>       
-            </tr>
-        </table>
-        <hr>
-        <table class="writetable">
-            <tr>
-                <th style="width: 117px;">내용</th>
-                <td></td>
-            </tr>
-            <tr>
-                <th>이미지</th>
-                <td></td>
-            </tr>
-        </table>
-            <hr>
-        <table class="writetable">
-            <tr>
-                <th>물품이름</th>
-                <td></td>
-            </tr>
-        </table>    
-        <hr>
-        <table class="writetable">
-            <tr>
-                <th style="width: 117px;">가격</th>
-                <td></td>
-            </tr>
-        </table>
-        <hr>
-        <table class="writetable">
-            <tr>
-                <th>저자이름</th>
-                <td></td>
-            </tr>            
-        </table>
-        
+          <table class="writetable" th:object="${post}">
+              <tr>
+                  <th style="width: 117px;">제목  </th>
+                  <td th:text="*{title}">
+                  </td>       
+              </tr>
+          </table>
+          <hr>
+          <table class="writetable" th:object="${post}">
+              <tr>
+                  <th style="width: 117px;">내용</th>
+                  <td th:text="*{content}"></td>
+              </tr>
+              <tr>
+                  <th>이미지</th>
+                  <td></td>
+              </tr>
+          </table>
+            <div class="EAndD">
+                <a href="#">수정</a>
+                <a href="#">삭제</a>
+            </div>
+              <hr>
+          <table class="writetable">
+              <thead>
+              <tr>
+                  <th>물품이름</th>
+                  <th>가격</th>
+                  <th>저자</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="item : ${post.items}">
+                  <td th:text="${item.name}"></td>
+                  <td th:text="${item.price}"></td>
+                  <td></td>
+              </tr>
+              </tbody>
+          </table>    
+          <hr>
+            <table class="writetable">
+                <tr th:each="comment : ${post.comments}">
+                    <th>작성된 댓글</th>
+                    <td th:text="${comment.content}"></td>
+                </tr>
+            </table>
+            <form method="post">
+          <table class="writetable">
+              <tr>
+                  <th>댓글 작성하기</th>
+                  <td><textarea name="comment" th:name="comment" cols="50" rows="1"></textarea></td>
+                <td><button type="submit">댓글작성</button></td>
+              </tr>            
+          </table>
+        </form>
 
 
         <hr />

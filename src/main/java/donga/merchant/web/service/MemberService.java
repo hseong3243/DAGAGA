@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,9 +24,9 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> result = memberRepository.findByStudentNumber(member.getStudentNumber());
+        Optional<Member> result = memberRepository.findByStudentNumber(member.getStudentNumber());
 
-        if(!result.isEmpty()) {
+        if(result.isPresent()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
 

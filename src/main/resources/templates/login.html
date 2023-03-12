@@ -1,27 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DAGAGA_login</title>
-    <link rel="stylesheet" href="fontawesome/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
+          href="fontawesome/css/all.min.css" />
     <!-- https://fontawesome.com/ -->
     <link
       href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
       rel="stylesheet"
     />
     <!-- https://fonts.google.com/ -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" href="css/style.css" rel="stylesheet"/>
     <!-- <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> -->
-    <!--
-    
-TemplateMo 553 Xtra Blog
+    <!--TemplateMo 553 Xtra Blog https://templatemo.com/tm-553-xtra-blog-->
+    <style>
+      .field-error {
+        border-color: #dc3545;
+        color: #dc3545;
+      }
+    </style>
 
-https://templatemo.com/tm-553-xtra-blog
-
--->
   </head>
   <body>
     <header class="tm-header" id="tm-header">
@@ -38,28 +41,30 @@ https://templatemo.com/tm-553-xtra-blog
             <img src="img/donga.jpg" alt="Image" class="img-fluid" />
           </div>
           <h1 class="text-center">DAGAGA</h1>
+
         </div>
         <nav class="tm-nav" id="tm-nav">
           <ul>
             <li class="tm-nav-item">
-              <a href="main.html" class="tm-nav-link">
+              <a th:href="@{/}" href="main.html" class="tm-nav-link">
                 <i class="fas fa-home"></i>
                 HOME
               </a>
             </li>
             <li class="tm-nav-item">
-              <a href="postLitst.html" class="tm-nav-link">
+              <a th:href="@{/posts}" href="postList.html" class="tm-nav-link">
                 <i class="fas fa-pen"></i>
                 Post List
               </a>
             </li>
             <li class="tm-nav-item">
-              <a href="itemList.html" class="tm-nav-link">
+              <a th:href="@{/items}" href="itemList.html" class="tm-nav-link">
                 <i class="fas fa-solid fa-tags"></i>
                 Item List
               </a>
             </li>
-            <li class="tm-nav-item"><a href="myPage.html" class="tm-nav-link">
+            <li class="tm-nav-item">
+              <a th:href="@{/my-page}" href="myPage/myPage.html" class="tm-nav-link">
               <i class="fas fa-id-card"></i>
                 My Page
             </a></li>
@@ -69,7 +74,8 @@ https://templatemo.com/tm-553-xtra-blog
     </header>
     <div class="container-fluid">
       <main class="tm-main">
-        <div class="container-login"><a href="logIn.html">login</a></div>
+        <div class="container-login">
+          <a th:href="@{/login}" href="login.html">login</a></div>
         <!-- Search form -->
         <div class="row tm-row">
           <div class="col-12">
@@ -99,19 +105,21 @@ https://templatemo.com/tm-553-xtra-blog
     <div class="container">
       <div class="wrapper">
         <div class="title"><span>Login Form</span></div>
-        <form action="#">
+        <form action="#" th:action th:object="${loginForm}" method="post">
           <div class="row">
             <i class="fas fa-user"></i>
-            <input type="text" placeholder="학번" required>
+            <input type="text" placeholder="학번" th:field="*{studentNumber}" required>
+            <div class="field-error" th:errors="*{studentNumber}"></div>
           </div>
           <div class="row">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="패스워드" required>
+            <input type="password" placeholder="패스워드" th:field="*{password}" required>
+            <div class="field-error" th:errors="*{password}"></div>
           </div>
           <div class="row button">
             <input type="submit" value="Login">
           </div>
-          <div class="signup-link"> <a href="signup.html">회원가입</a></div>
+          <div class="signup-link"> <a th:href="@{/login/signup}" href="signup.html">회원가입</a></div>
         </form>
       </div>
     </div>
