@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DAGAGA_write</title>
+    <link rel="stylesheet" th:href="@{/fontawesome/css/all.min.css}"
+          href="fontawesome/css/all.min.css" />
+    <!-- https://fontawesome.com/ -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <!-- https://fonts.google.com/ -->
+    <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet" />
+    <link th:href="@{/css/templatemo-xtra-blog.css}" href="css/templatemo-xtra-blog.css" rel="stylesheet" />
+
+    <style>
+      .member-login {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="tm-header" id="tm-header">
+      <div class="tm-header-wrapper">
+        <button
+          class="navbar-toggler"
+          type="button"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="tm-site-header">
+          <div class="mb-3 mx-auto tm-site-logo">
+            <img src="img/donga.jpg" alt="Image" class="img-fluid" />
+          </div>
+          <h1 class="text-center">DAGAGA</h1>
+          <div class="member-login"
+               th:if="${member != null}"
+               th:text="|${member.nickName}님 환영합니다.|"></div>
+        </div>
+        <nav class="tm-nav" id="tm-nav">
+          <ul>
+            <li class="tm-nav-item">
+              <a th:href="@{/}" href="main.html" class="tm-nav-link">
+                <i class="fas fa-home"></i>
+                HOME
+              </a>
+            </li>
+            <li class="tm-nav-item">
+              <a th:href="@{/posts}" href="postList.html" class="tm-nav-link">
+                <i class="fas fa-pen"></i>
+                Post List
+              </a>
+            </li>
+            <li class="tm-nav-item ">
+              <a th:href="@{/items}" href="itemList.html" class="tm-nav-link">
+                <i class="fas fa-solid fa-tags"></i>
+                Item List
+              </a>
+            </li>
+            <li class="tm-nav-item">
+              <a th:href="@{/my-page}" href="myPage.html" class="tm-nav-link">
+              <i class="fas fa-id-card"></i>
+              My Page
+          </a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="container-fluid">
+      <main class="tm-main">
+        <div class ="container-login">
+          <a th:if="${member == null}" th:href="@{/login}" href="login.html">login</a>
+          <a th:if="${member != null}" th:href="@{/logout}">logout</a>
+        </div>
+        <!-- Search form -->
+        <div class="row tm-row">
+          <div class="col-12">
+            <form method="GET" class="form-inline tm-mb-80 tm-search-form">
+              <input
+                class="form-control tm-search-input"
+                name="query"
+                type="text"
+                placeholder="Search..."
+                aria-label="Search"
+              />
+              <button class="tm-search-button" type="submit">
+                <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <hr>
+        <table class="writetable">
+            <tr>
+                <th style="width: 117px;">제목  </th>
+                <td>
+                    <input type="text" name="title">
+                    <select>
+                        <option value="3">거래가능</option>
+                        <option value="4">거래완료</option>
+                    </select>
+                    </td>       
+            </tr>
+        </table>
+        <hr>
+        <table class="writetable">
+            <tr>
+                <th style="width: 117px;">내용</th>
+                <td><textarea cols="50" rows="10" name="content" placeholder="내용을 입력해주세요"></textarea></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td><input type="button" value="사진첨부"></td>
+            </tr>
+        </table>
+            <hr>
+        <table class="writetable">
+            <tr>
+                <th>물품이름</th>
+                <td><input type="text" name="itemname" placeholder="예시) 책, 옷"></td>
+            </tr>
+        </table>    
+        <hr>
+        <table class="writetable">
+            <tr>
+                <th style="width: 117px;">가격</th>
+                <td><input type="text" name="itemprice" placeholder="숫자만 입력해주세요."></td>
+            </tr>
+        </table>
+        <hr>
+        <table class="writetable">
+            <tr>
+                <th>저자이름</th>
+                <td><input size="33" type="text" placeholder="물품이 책인 경우에만 작성해주세요." value></td>
+            </tr>            
+        </table>
+        <div class="outerpostwriting">
+            <div class="innerpostwriting">
+              <button class="postwriting">
+                <a class="writingicon2"href="seewriting.html">글작성하기</a></button>
+            </div>
+          </div>
+
+
+        <hr />
+        <footer class="row tm-row">
+          <div class="col-md-6 col-12 tm-color-gray">
+              Dragonball
+            </a>
+          </div>
+          <div class="col-md-6 col-12 tm-color-gray tm-copyright">
+            www.DAGAGA
+          </div>
+        </footer>
+      </main>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/templatemo-script.js"></script>
+  </body>
+</html>

@@ -46,8 +46,8 @@ public class Post {
         item.setPost(this);
     }
 
-    //--게시판 생성--//
-    public static Post write(String title, String content, Item... items) {
+    //--생성 메서드--//
+    public static Post createPost(String title, String content, Item... items) {
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);
@@ -57,4 +57,6 @@ public class Post {
 
         return post;
     }
+
+
 }
